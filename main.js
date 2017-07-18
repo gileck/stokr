@@ -47,9 +47,7 @@ function changeBtnState() {
 
 function render() {
   document.querySelector("#root").innerHTML = generateHTML();
-  document.querySelector("ul").addEventListener("click",(e) => {
-    // if (..)
-    // debugger;
+  document.querySelector("#root ul").addEventListener("click",(e) => {
     let type = e.target.getAttribute("data-type");
     if (!type) return;
     eventHandler[type](e);

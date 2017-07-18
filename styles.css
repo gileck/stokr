@@ -1,3 +1,13 @@
+@font-face {
+  font-family: "HelveticaNeueW01-55Roman";
+  src: url("assets/fonts/HelveticaNeueW01-55Roman.eot?#iefix");
+  src: url("assets/fonts/HelveticaNeueW01-55Roman.eot?#iefix") format("eot"),
+  url("assets/fonts/HelveticaNeueW01-55Roman.woff") format("woff"),
+  url("assets/fonts/HelveticaNeueW01-55Roman.ttf") format("truetype"),
+  url("assets/fonts/HelveticaNeueW01-55Roman.svg#helvetica_neue") format("svg");
+}
+
+
 html {
   box-sizing: border-box;
   font-size: 100%;
@@ -9,7 +19,6 @@ html {
 body {
   width: 80%;
   margin: auto;
-  border: 1px solid gray;
   padding: 20px;
 }
 
@@ -19,7 +28,7 @@ ul {
 }
 
 .stocks-ul li{
-  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
   padding: 20px;
   display: flex;
   align-items: center;
@@ -35,6 +44,7 @@ ul {
 
 .arrows-wrapper {
   position: relative;
+  margin-bottom: 12px;
 }
 
 .arrow-up {
@@ -46,9 +56,6 @@ ul {
   top: 15px;
 }
 
-.disable-arrow {
-  color: lightgray;
-}
 
 .red-btn {
   background-color: #ff4f46;
@@ -64,6 +71,15 @@ ul {
   border: 0;
   padding: 11px;
   font-size: 30px;
+  cursor: pointer;
+
+  width: 142px;
+  height: 54px;
+
+}
+
+.value-btn:focus {
+  outline:0;
 }
 
 .stock-name {
@@ -83,4 +99,71 @@ ul {
   font-size: 30px;
   text-align: left;
   color: #59737c;
+}
+
+.nav-ul {
+  display: flex;
+  justify-content: space-around;
+  height: 100%;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.nav-ul li {
+  font-size:35px
+}
+h1 {
+  margin: 0;
+  padding:20px;
+}
+header {
+  display: flex;
+  border-bottom: 1px solid lightgray;
+  height:100px;
+}
+
+header h1 {
+  flex: 1
+}
+
+nav {
+  width: 20%;
+}
+
+main {
+  border: 1px solid gray;
+}
+
+.main-header {
+  font-family: LucidaGrande;
+  font-size: 39px;
+  font-weight: bold;
+  text-align: left;
+  color: #41bf15;
+}
+
+.icon-arrow {
+  cursor: pointer;
+  color: gray;
+}
+
+.icon-arrow:hover {
+  color: black;
+}
+
+.disable-arrow {
+  color: #d6d6d6;
+}
+
+.disable-arrow:hover {
+  color: #d6d6d6;
+}
+
+.menu-icon {
+  color: #b3b3b3;
+}
+
+.menu-icon:hover {
+  color: #707070;
+  cursor: pointer;
 }
