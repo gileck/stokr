@@ -50,6 +50,7 @@ function render() {
   document.querySelector("#root ul").addEventListener("click",(e) => {
     let type = e.target.getAttribute("data-type");
     if (!type) return;
+
     eventHandler[type](e);
   });
 }
@@ -57,7 +58,9 @@ function render() {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function generateHTML() {
-  return `<ul class="stocks-ul">${ stocks.map(generateListItem).join('') }</ul>`
+  return `<ul class="stocks-ul">
+    ${ stocks.map(generateListItem).join('') }
+  </ul>`
 }
 
 function isDisabled(type,Symbol) {
@@ -72,9 +75,10 @@ function generateListItem(stock) {
     <div class="li-right">
       <span class="value-number">${Math.round(stock.Change*100)/100}</span>
       <button data-type="valueBtn" 
-      data-id="${stock.Symbol}" 
-      class="value-btn ${stock.Change < 0 ? 'red-btn' : 'green-btn'}">
-${getValue(stock)}</button>
+              data-id="${stock.Symbol}" 
+              class="value-btn ${stock.Change < 0 ? 'red-btn' : 'green-btn'}">
+        ${getValue(stock)}
+      </button>
       <div class="arrows-wrapper">
         <div 
         class="icon-arrow arrow-up ${isDisabled("top",stock.Symbol) ? 'disable-arrow' : ''}" 
@@ -88,5 +92,7 @@ ${getValue(stock)}</button>
     </div>
 </li>`
 }
+
+
 
 render();

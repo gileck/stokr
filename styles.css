@@ -25,10 +25,12 @@ body {
 ul {
   list-style-type:none;
   margin: 0;
+  padding:0;
+
 }
 
 .stocks-ul li{
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid #eaeaea;
   padding: 20px;
   display: flex;
   align-items: center;
@@ -118,7 +120,7 @@ h1 {
 }
 header {
   display: flex;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid #eaeaea;
   height:100px;
 }
 
@@ -131,7 +133,7 @@ nav {
 }
 
 main {
-  border: 1px solid gray;
+  border: 20px solid #f0f4f7;
 }
 
 .main-header {
