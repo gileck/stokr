@@ -1,0 +1,86 @@
+html {
+  box-sizing: border-box;
+  font-size: 100%;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  width: 80%;
+  margin: auto;
+  border: 1px solid gray;
+  padding: 20px;
+}
+
+ul {
+  list-style-type:none;
+  margin: 0;
+}
+
+.stocks-ul li{
+  border-top: 1px solid lightgray;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+
+}
+
+.li-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 250px;
+}
+
+.arrows-wrapper {
+  position: relative;
+}
+
+.arrow-up {
+
+}
+.arrow-down {
+  transform: rotate(180deg);
+  position: absolute;
+  top: 15px;
+}
+
+.disable-arrow {
+  color: lightgray;
+}
+
+.red-btn {
+  background-color: #ff4f46;
+}
+
+.green-btn {
+  background-color: #63da39;
+}
+
+.value-btn {
+  border-radius: 10px;
+  color:white;
+  border: 0;
+  padding: 11px;
+  font-size: 30px;
+}
+
+.stock-name {
+  flex: 1;
+  font-family: Avenir;
+  font-size: 33px;
+  font-weight: 300;
+  text-align: left;
+  color: #59737c;
+
+}
+
+.value-number {
+  /*width: 99px;*/
+  height: 35px;
+  font-family: HelveticaNeueW01-55Roman;
+  font-size: 30px;
+  text-align: left;
+  color: #59737c;
+}
