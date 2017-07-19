@@ -3,18 +3,19 @@ let state = {
 };
 
 let displayedFields = [
-  {field: "PercentChange", display: value => value},
-  {field: "Change", display: value => Math.round(value*100)/100 + "B"},
-  {field: "LastTradePriceOnly", display: value => Math.round(value*100)/100}
+  {name: "PercentChange", display: value => value},
+  {name: "LastTradePriceOnly", display: value => Math.round(value*100)/100 + "B"},
+  {name: "Change", display: value => Math.round(value*100)/100}
 ];
 
-let eventHandler = {
+let handlerFunctions = {
   valueBtn: handleValueBtnClick,
-  arrowBtn: handleArrowBtnClick,
+  arrowBtn: handleArrowBtnClick
 };
 
 function getValue(stock) {
-  return displayedFields[state.btnState].display(stock[displayedFields[state.btnState].field]);
+  const field = displayedFields[state.btnState];
+  return field.display(stock[field.name]);
 }
 
 function handleValueBtnClick() {
@@ -23,9 +24,9 @@ function handleValueBtnClick() {
 }
 
 function handleArrowBtnClick(e) {
-  let symbol = e.target.getAttribute("data-id");
-  let currentIndex = stocks.map(stock => stock.Symbol).indexOf(symbol);
-  let arrowType = e.target.getAttribute("data-arrow-type");
+  const symbol = e.target.getAttribute("data-id");
+  const currentIndex = stocks.map(stock => stock.Symbol).indexOf(symbol);
+  const arrowType = e.target.getAttribute("data-arrow-type");
   if (arrowType === "up" && currentIndex === 0 || arrowType === "down" && currentIndex === stocks.length - 1) return;
   swap(currentIndex, (arrowType === "up") ? currentIndex - 1 : currentIndex + 1);
   render();
@@ -40,13 +41,21 @@ function changeBtnState() {
   if (state.btnState === displayedFields.length) state.btnState = 0;
 }
 
+function isDisabled(type,Symbol) {
+  let currentIndex = stocks.map(stock => stock.Symbol).indexOf(Symbol);
+  if (type === "top") return currentIndex === 0;
+  if (type === "down") return currentIndex === stocks.length - 1;
+}
+
+function clickEventHandler(e) {
+  let type = e.target.getAttribute("data-type");
+  if (!type) return;
+  handlerFunctions[type](e);
+}
+
 function render() {
   document.querySelector("#root").innerHTML = generateHTML();
-  document.querySelector("#stocks-ul").addEventListener("click",(e) => {
-    let type = e.target.getAttribute("data-type");
-    if (!type) return;
-    eventHandler[type](e);
-  });
+  document.querySelector("#stocks-ul").addEventListener("click",clickEventHandler)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,11 +79,6 @@ function generateHTML() {
   </ul>`
 }
 
-function isDisabled(type,Symbol) {
-  let currentIndex = stocks.map(stock => stock.Symbol).indexOf(Symbol);
-  if (type === "top") return currentIndex === 0;
-  if (type === "down") return currentIndex === stocks.length - 1;
-}
 
 function generateListItem(stock) {
   return `<li>  

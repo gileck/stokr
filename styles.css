@@ -74,10 +74,8 @@ ul {
   padding: 11px;
   font-size: 30px;
   cursor: pointer;
-
-  width: 142px;
+  width: 127px;
   height: 54px;
-
 }
 
 .value-btn:focus {
@@ -95,11 +93,11 @@ ul {
 }
 
 .value-number {
-  /*width: 99px;*/
+  width: 65px;
   height: 35px;
   font-family: HelveticaNeueW01-55Roman;
   font-size: 30px;
-  text-align: left;
+  text-align: center;
   color: #59737c;
 }
 
