@@ -27,7 +27,6 @@ function handleArrowBtnClick(e) {
   const symbol = e.target.getAttribute("data-id");
   const currentIndex = stocks.findIndex(stock => stock.Symbol === symbol);
   const arrowType = e.target.getAttribute("data-arrow-type");
-  if (isDisabled(arrowType,currentIndex)) return;
   swap(currentIndex, (arrowType === "up") ? currentIndex - 1 : currentIndex + 1);
   render();
 }
@@ -42,12 +41,12 @@ function changeBtnState() {
 }
 
 function isDisabled(type,index) {
-  if (type === "top") return index === 0;
-  if (type === "down") return index === stocks.length - 1;
+  return index === 0 && type === "top" || type === "down" && index === stocks.length - 1;
 }
 
 function clickEventHandler(e) {
   let type = e.target.getAttribute("data-type");
+  if (e.target.hasAttribute("disabled")) return;
   if (!type) return;
   handlerFunctions[type](e);
 }
@@ -75,7 +74,8 @@ function generateHTML() {
 
 <ul id="stocks-ul" class="stocks-ul">
     ${ stocks.map(generateListItem).join('') }
-  </ul>`
+  </ul>
+`
 }
 
 
@@ -95,13 +95,13 @@ function generateListItem(stock, index) {
         data-type="arrowBtn"
         data-arrow-type="up"
         data-id="${stock.Symbol}"
-        ${isDisabled('top',index) ? "disabled" : ""}></btn> 
+        ${index === 0 ? "disabled" : ""}></btn> 
         <btn 
         data-type="arrowBtn"
         data-arrow-type="down"
         data-id="${stock.Symbol}" 
         class="icon-arrow arrow-down"
-        ${isDisabled('down',index) ? "disabled" : ""}></btn> 
+        ${index === stocks.length - 1 ? "disabled" : ""}></btn> 
       </div>
     </div>
 </li>`
