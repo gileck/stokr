@@ -25,9 +25,9 @@ function handleValueBtnClick() {
 
 function handleArrowBtnClick(e) {
   const symbol = e.target.getAttribute("data-id");
-  const currentIndex = stocks.map(stock => stock.Symbol).indexOf(symbol);
+  const currentIndex = stocks.findIndex(stock => stock.Symbol === symbol);
   const arrowType = e.target.getAttribute("data-arrow-type");
-  if (arrowType === "up" && currentIndex === 0 || arrowType === "down" && currentIndex === stocks.length - 1) return;
+  if (isDisabled(arrowType,currentIndex)) return;
   swap(currentIndex, (arrowType === "up") ? currentIndex - 1 : currentIndex + 1);
   render();
 }
@@ -41,10 +41,9 @@ function changeBtnState() {
   if (state.btnState === displayedFields.length) state.btnState = 0;
 }
 
-function isDisabled(type,Symbol) {
-  let currentIndex = stocks.map(stock => stock.Symbol).indexOf(Symbol);
-  if (type === "top") return currentIndex === 0;
-  if (type === "down") return currentIndex === stocks.length - 1;
+function isDisabled(type,index) {
+  if (type === "top") return index === 0;
+  if (type === "down") return index === stocks.length - 1;
 }
 
 function clickEventHandler(e) {
@@ -80,7 +79,7 @@ function generateHTML() {
 }
 
 
-function generateListItem(stock) {
+function generateListItem(stock, index) {
   return `<li>  
     <span class="stock-name">${stock.Symbol} (${stock.Name})</span>
     <div class="li-right">
@@ -91,16 +90,18 @@ function generateListItem(stock) {
         ${getValue(stock)}
       </button>
       <div class="arrows-wrapper">
-        <div 
-        class="icon-arrow arrow-up ${isDisabled("top",stock.Symbol) ? 'disable-arrow' : ''}" 
+        <btn 
+        class="icon-arrow arrow-up" 
         data-type="arrowBtn"
         data-arrow-type="up"
-        data-id="${stock.Symbol}"></div>
-        <div 
+        data-id="${stock.Symbol}"
+        ${isDisabled('top',index) ? "disabled" : ""}></btn> 
+        <btn 
         data-type="arrowBtn"
         data-arrow-type="down"
         data-id="${stock.Symbol}" 
-        class="icon-arrow arrow-down ${isDisabled("down",stock.Symbol) ? 'disable-arrow' : ''}"></div> 
+        class="icon-arrow arrow-down"
+        ${isDisabled('down',index) ? "disabled" : ""}></btn> 
       </div>
     </div>
 </li>`
@@ -109,3 +110,5 @@ function generateListItem(stock) {
 
 
 render();
+
+

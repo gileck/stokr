@@ -151,11 +151,14 @@ main {
   color: black;
 }
 
+.icon-arrow[disabled] {
+  color: #d6d6d6;
+}
 .disable-arrow {
   color: #d6d6d6;
 }
 
-.disable-arrow:hover {
+.icon-arrow[disabled]:hover {
   color: #d6d6d6;
 }
 
