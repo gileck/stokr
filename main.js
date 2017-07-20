@@ -40,10 +40,6 @@ function changeBtnState() {
   if (state.btnState === displayedFields.length) state.btnState = 0;
 }
 
-function isDisabled(type,index) {
-  return index === 0 && type === "top" || type === "down" && index === stocks.length - 1;
-}
-
 function clickEventHandler(e) {
   let type = e.target.getAttribute("data-type");
   if (e.target.hasAttribute("disabled")) return;
