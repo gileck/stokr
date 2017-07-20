@@ -9,41 +9,32 @@ let displayedFields = [
 ];
 
 let handlerFunctions = {
-  valueBtn: handleValueBtnClick,
-  arrowBtn: handleArrowBtnClick
+  valueBtn: changeBtnDisplay,
+  arrowBtn: swapStocks
 };
+
+function changeBtnDisplay() {
+  state.btnState++;
+  if (state.btnState === displayedFields.length) state.btnState = 0;
+  render();
+}
+
+function swapStocks(e) {
+  const symbol = e.target.getAttribute("data-id");
+  const currentIndex = stocks.findIndex(stock => stock.Symbol === symbol);
+  const arrowType = e.target.getAttribute("data-arrow-type");
+  stocks[currentIndex] = stocks.splice((arrowType === "up") ? currentIndex - 1 : currentIndex + 1,1,stocks[currentIndex])[0];
+  render();
+}
 
 function getValue(stock) {
   const field = displayedFields[state.btnState];
   return field.display(stock[field.name]);
 }
 
-function handleValueBtnClick() {
-  changeBtnState();
-  render();
-}
-
-function handleArrowBtnClick(e) {
-  const symbol = e.target.getAttribute("data-id");
-  const currentIndex = stocks.findIndex(stock => stock.Symbol === symbol);
-  const arrowType = e.target.getAttribute("data-arrow-type");
-  swap(currentIndex, (arrowType === "up") ? currentIndex - 1 : currentIndex + 1);
-  render();
-}
-
-function swap(index1,index2) {
-  stocks[index1] = stocks.splice(index2,1,stocks[index1])[0];
-}
-
-function changeBtnState() {
-  state.btnState++;
-  if (state.btnState === displayedFields.length) state.btnState = 0;
-}
-
 function clickEventHandler(e) {
   let type = e.target.getAttribute("data-type");
-  if (e.target.hasAttribute("disabled")) return;
-  if (!type) return;
+  if (!type || e.target.hasAttribute("disabled")) return;
   handlerFunctions[type](e);
 }
 
