@@ -170,3 +170,15 @@ main {
   color: #707070;
   cursor: pointer;
 }
+
+.filter {
+  display: none;
+}
+
+.show-filter {
+  display: block;
+}
+
+.red-color {
+  color: red
+}
