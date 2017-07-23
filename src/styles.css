@@ -1,10 +1,10 @@
 @font-face {
   font-family: "HelveticaNeueW01-55Roman";
-  src: url("assets/fonts/HelveticaNeueW01-55Roman.eot?#iefix");
-  src: url("assets/fonts/HelveticaNeueW01-55Roman.eot?#iefix") format("eot"),
-  url("assets/fonts/HelveticaNeueW01-55Roman.woff") format("woff"),
-  url("assets/fonts/HelveticaNeueW01-55Roman.ttf") format("truetype"),
-  url("assets/fonts/HelveticaNeueW01-55Roman.svg#helvetica_neue") format("svg");
+  src: url("../assets/fonts/HelveticaNeueW01-55Roman.eot?#iefix");
+  src: url("../assets/fonts/HelveticaNeueW01-55Roman.eot?#iefix") format("eot"),
+  url("../assets/fonts/HelveticaNeueW01-55Roman.woff") format("woff"),
+  url("../assets/fonts/HelveticaNeueW01-55Roman.ttf") format("truetype"),
+  url("../assets/fonts/HelveticaNeueW01-55Roman.svg#helvetica_neue") format("svg");
 }
 
 

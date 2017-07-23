@@ -1,0 +1,65 @@
+controller($scope) {
+
+  $scope.mode = "change"
+  service.data((data) => {
+    $scope.data = data;
+  });
+
+
+}
+
+
+/////
+
+
+
+// HTML
+
+<li for stock in stock> {{ stock[mode] }}</li>
+
+//////////////////////////////
+
+
+controller($scope) {
+
+  $scope.mode = "change"
+  service.data((data) => {
+    $scope.data = data;
+  });
+
+  ........
+
+  $scope.uiArray = {
+          "Symbol": "WIX",
+          "Name": "Wix.com Ltd.",
+          "fieldToDisplay": "...."
+
+  }
+
+  <li for stock in stock> {{ stock.fieldToDisplay }}</li>
+
+
+}
+
+
+
+////////////////////////////
+
+controller($scope) {
+
+  $scope.mode = "change"
+  service.data((data) => {
+    $scope.data = data;
+  });
+
+  whatToDisplay(stock) {
+    return stock[$scope.mode]
+  }
+
+
+  <li for stock in stock> {{ whatToDisplay(stock) }}</li>
+
+
+}
+
+
