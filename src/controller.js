@@ -4,49 +4,56 @@
   let Model = window.Stokr.Model;
   let View = window.Stokr.View;
 
+  fetchStocks()
+   .then(render)
+   .catch(console.log);
 
-  let handlerFunctions = {
-    valueBtn: changeBtnDisplay,
-    arrowBtn: swapStocks
-  };
+  function fetchStocks() {
+    return fetch("http://localhost:7000/quotes?q=" + Model.getState().stocksNames.join(","))
+      .then(response => response.json())
+      .then(data => data.query.results.quote)
+      .then(stocks => {
+        Model.getState().stocks = stocks;
+      });
+  }
 
-  function openFilter() {
-    Model.toggleFilter();
+  function toggleFilter() {
+    Model.getState().filter = !Model.getState().filter;
     render();
   }
 
-  function changeBtnDisplay() {
-    Model.toggleDisplayMode();
+  function changeBtnDisplay(numOfModes) {
+    Model.getState().displayMode++;
+    if (Model.getState().displayMode === numOfModes) Model.getState().displayMode = 0;
     render();
   }
 
-  function swapStocks(e) {
-    const symbol = e.target.closest('li').dataset.id;
-    const currentIndex = Model.getStocks().findIndex(stock => stock.Symbol === symbol);
-    const arrowType = e.target.dataset.arrow;
-    const indexToRepace = (arrowType === "up") ? currentIndex - 1 : currentIndex + 1;
-    Model.state.stocks[currentIndex] = Model.state.stocks.splice(indexToRepace, 1, Model.state.stocks[currentIndex])[0];
+  function swapStocks(symbol,direction) {
+    const currentIndex = Model.getState().stocks.findIndex(stock => stock.Symbol === symbol);
+    let stocks = Model.getState().stocks;
+    stocks[currentIndex] = stocks.splice(currentIndex + direction, 1, stocks[currentIndex])[0];
     render();
   }
 
-  function filterHandler() {
-    const value = document.querySelector("#filter-name").value;
-    let filteredStocks = Model.getStocks().filter(stock => {
-      return stock.Name.toLowerCase().indexOf(value) !== -1
+  function filterStocks(filters) {
+    let filteredStocks = Model.getState().stocks.filter(stock => {
+      const filter_name = !filters.name || stock.Name.toLowerCase().indexOf(filters.name) !== -1;
+      const filter_gain = filters.gain ? filters.gain === 1 && parseFloat(stock.realtime_chg_percent) > 0 || filters.gain === 2 && parseFloat(stock.realtime_chg_percent) < 0 : true;
+      const filter_range_from = !filters.range_from || parseFloat(stock.realtime_chg_percent) > Number(filters.range_from);
+      const filter_range_to = !filters.range_to || parseFloat(stock.realtime_chg_percent) < Number(filters.range_to);
+      return filter_name && filter_gain && filter_range_from && filter_range_to;
     });
     View.renderStock(filteredStocks);
   }
 
-  function clickEventHandler(e) {
-    let type = e.target.dataset.type;
-    if (!type || e.target.hasAttribute("disabled")) return;
-    handlerFunctions[type](e);
+  function isFilterOpen() {
+    return Model.getState().filter;
   }
 
-  View.setHandlers({clickEventHandler, filterHandler, openFilter});
+  View.setHandlers({swapStocks, filterStocks, toggleFilter, changeBtnDisplay, isFilterOpen});
 
   function render() {
-    View.setState({state: Model.state});
+    View.setState(Model.getState());
     View.render();
   }
 

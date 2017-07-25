@@ -2,61 +2,40 @@
   'use strict';
   window.Stokr = window.Stokr || {};
 
-  let displayedFields = [
-    {name: "PercentChange", display: value => value},
-    {name: "LastTradePriceOnly", display: value => Math.round(value*100)/100 + "B"},
-    {name: "Change", display: value => Math.round(value*100)/100}
-  ];
-
-
   let state = {
-    stocks: [
-      {
-        "Symbol": "WIX",
-        "Name": "Wix.com Ltd.",
-        "Change": "0.750000",
-        "PercentChange": "+1.51%",
-        "LastTradePriceOnly": "76.099998"
-      },
-      {
-        "Symbol": "MSFT",
-        "Name": "Microsoft Corporation",
-        "PercentChange": "-2.09%",
-        "Change": "-0.850006",
-        "LastTradePriceOnly": "69.620003"
-      },
-      {
-        "Symbol": "YHOO",
-        "Name": "Yahoo! Inc.",
-        "Change": "0.279999",
-        "PercentChange": "+1.11%",
-        "LastTradePriceOnly": "50.599998"
-      }
-    ],
+    stocks: [],
+    stocksNames: ["WIX","MSFT","GOOG"],
     displayMode: 0,
     filter: false
   };
 
-
   window.Stokr.Model = {
-    state: state,
-    getStocks() {
-      return state.stocks;
-    },
-    getDispleyMode() {
-      return state.displayMode;
-    },
-    isFilterOpen() {
-      return filter;
-    },
-    toggleDisplayMode() {
-      state.displayMode++;
-      if (state.displayMode === displayedFields.length) state.displayMode = 0;
-    },
-    toggleFilter() {
-      state.filter = !state.filter;
+    getState() {
+      return state;
     }
   }
 
 })();
 
+/*
+ symbol: "WIX",
+ Name: "Wix.com Ltd. - Ordinary Shares",
+ Symbol: "WIX",
+ Open: "73.400002",
+ DaysHigh: "75.949997",
+ DaysLow: "73.099998",
+ MarketCapitalization: "3.439B",
+ YearHigh: "86.150000",
+ YearLow: "31.280000",
+ Volume: "796874",
+ AverageDailyVolume: "-",
+ PERatio: null,
+ LastTradePriceOnly: "75.650002",
+ Change: "2.550003",
+ realtime_price: "75.650002",
+ realtime_change: "2.550003",
+ realtime_chg_percent: "3.488376",
+ eps_curr_year: "-1.110000",
+ realtime_ts: "7 24 2017 20:00:00 GMT",
+ ts: "7 24 2017 20:00:00 GMT"
+ */

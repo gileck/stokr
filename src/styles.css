@@ -41,7 +41,7 @@ ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 250px;
+  width: 300px;
 }
 
 .arrows-wrapper {
@@ -71,8 +71,8 @@ ul {
   border-radius: 10px;
   color:white;
   border: 0;
-  padding: 11px;
-  font-size: 30px;
+  padding-right: 10px;
+  font-size: 28px;
   cursor: pointer;
   width: 127px;
   height: 54px;
@@ -99,6 +99,7 @@ ul {
   font-size: 30px;
   text-align: center;
   color: #59737c;
+  margin-right: 20px;
 }
 
 .nav-ul {
@@ -173,12 +174,84 @@ main {
 
 .filter {
   display: none;
+  /*display: flex;*/
+  font-family: LucidaGrande;
+  padding:10px;
+
+}
+
+.filter label {
+}
+
+.filter-body {
+  display: flex;
+  width: 86%;
+}
+
+.input-label {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.filter-body > div {
+  width: 50%;
+}
+
+.filter input, .filter select{
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  width: 70%;
+  font-size: 22px;
+  padding-left: 7px;
+}
+
+.filter label {
+  font-size: 18px;
+  color: gray;
+  padding:10px 0px;
 }
 
 .show-filter {
-  display: block;
+  display: flex;
 }
 
 .red-color {
   color: red
+}
+
+.apply-button {
+  margin: auto;
+  margin-top: 0;
+  font-size: 21px;
+  color: white;
+  /* padding: 0px 28px; */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: #41bf15;
+  border: solid 1px #247906;
+  cursor: pointer;
+}
+
+.apply-button:focus {
+  outline:0;
+}
+
+.apply-button:hover {
+  background-color: #349c11;
+}
+
+
+.filter-left label{
+  width: 20%;
+
+}
+.filter-right label{
+  width: 30%;
+
+}
+
+.hideArrows {
+  /*display: none;*/
+  visibility: hidden;
 }
