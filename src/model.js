@@ -6,7 +6,8 @@
     stocks: [],
     stocksNames: ["WIX","MSFT","GOOG"],
     displayMode: 0,
-    filter: false
+    filter: false,
+    edit: false
   };
 
   window.Stokr.Model = {
