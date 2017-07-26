@@ -213,7 +213,7 @@
         <button data-type="valueBtn"
                 class="value-btn ${stock.Change < 0 ? 'red-btn' : 'green-btn'}"> ${displayValue(stock)}
         </button>
-        <div class="arrows-wrapper ${ ctrl.isFilterOpen() ? 'hideArrows' : '' }">
+        <div class="arrows-wrapper ${ state.filter ? 'hideArrows' : '' }">
           <btn class="icon-arrow arrow-up"
           data-type="arrowBtn" data-arrow="up"
           ${index === 0 ? "disabled" : ""}></btn>
@@ -237,4 +237,6 @@
     renderSearchResults
   }
   })();
+
+
 

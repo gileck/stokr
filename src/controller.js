@@ -1,4 +1,3 @@
-const URL = "http://localhost:7000";
 
 (function () {
   'use strict';
@@ -6,12 +5,12 @@ const URL = "http://localhost:7000";
   let App = window.Stokr;
   let Model = App.Model;
   let View = App.View;
-  let Stock = new App.Stock({Model, View});
-  let FilterUtils = new App.FilterUtils({Model, View});
-  let StateMgmt = new App.StateMgmt({Model, View});
+  let Stock = new App.Stock(App);
+  let FilterUtils = new App.FilterUtils(App);
+  let StateMgmt = new App.StateMgmt(App);
+  let Router = new App.Router(App);
 
   init();
-  render();
 
   function init() {
     StateMgmt.setStateFromLocalStorage();
@@ -22,73 +21,62 @@ const URL = "http://localhost:7000";
   function render() {
     View.setState(Model.getState());
     View.render();
+    StateMgmt.saveToLocalStorage();
   }
 
   function fetchStocks() {
     return Stock.Fetch().then(render).catch(render);
   }
 
-  function toggleFilter() {
-    Model.getState().edit = false;
-    Model.getState().filter = !Model.getState().filter;
-    render();
-    StateMgmt.saveToLocalStorage();
-  }
+  View.setHandlers({
 
-  function changeBtnDisplay(numOfModes) {
-    Model.getState().displayMode++;
-    if (Model.getState().displayMode === numOfModes) Model.getState().displayMode = 0;
-    render();
-    StateMgmt.saveToLocalStorage();
-  }
+    addStock(symbol) {
+      Stock.Add(symbol);
+      fetchStocks().then(Router.Home);
+    },
 
-  function swapStocks(symbol,direction) {
-    Stock.swapStocks(symbol,direction);
-    render();
-    StateMgmt.saveToLocalStorage();
-  }
+    removeStock(symbol) {
+      Stock.Remove(symbol);
+      render();
+    },
 
-  function filterStocks(filters) {
-    View.renderStock(FilterUtils.filterStocks(filters));
-  }
+    swapStocks(symbol,direction) {
+      Stock.SwapStocks(symbol,direction);
+      render();
+    },
 
-  function isFilterOpen() {
-    return Model.getState().filter;
-  }
+    toggleFilter() {
+      Model.getState().edit = false;
+      Model.getState().filter = !Model.getState().filter;
+      render();
+    },
 
-  function searchStock(value) {
-    return Stock.Search(value).then(data => View.renderSearchResults(data))
-  }
+    changeBtnDisplay(numOfModes) {
+      Model.getState().displayMode++;
+      if (Model.getState().displayMode === numOfModes) Model.getState().displayMode = 0;
+      render();
+    },
 
-  function navigateHome() {
-    window.location.hash = "#"
-  }
+    filterStocks(filters) {
+      View.renderStock(FilterUtils.filterStocks(filters));
+    },
 
-  function addStock(symbol) {
-    Stock.Add(symbol);
-    StateMgmt.saveToLocalStorage();
-    fetchStocks().then(navigateHome);
-  }
+    searchStock(value) {
+      return Stock.Search(value).then(data => View.renderSearchResults(data))
+    },
 
-  function routeChange() {
-    render();
-  }
+    routeChange() {
+      render();
+    },
 
-  function toggleEdit() {
-    Model.getState().filter = false;
-    Model.getState().edit = !Model.getState().edit;
-    render();
-    StateMgmt.saveToLocalStorage();
-  }
+    toggleEdit() {
+      Model.getState().filter = false;
+      Model.getState().edit = !Model.getState().edit;
+      render();
+    },
 
-  function removeStock(symbol) {
-    Stock.Remove(symbol);
-    StateMgmt.saveToLocalStorage();
-    render();
-  }
-
-  View.setHandlers({swapStocks, filterStocks, toggleFilter, changeBtnDisplay, isFilterOpen, fetchStocks, searchStock, addStock, routeChange, toggleEdit, removeStock});
-
+    fetchStocks: fetchStocks
+  });
 
 })();
 
