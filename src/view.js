@@ -138,7 +138,7 @@
        <li data-id="${stock.symbol}" class="search-li">
            <span class="search-stock-name">${stock.name}</span>
            <span class="search-stock-exch">${stock.exchDisp}</span>
-           <button data-type="add-stock">+</button>
+           <button class="plus-btn" data-type="add-stock">+</button>
       </li>
     `;
   }
@@ -146,9 +146,7 @@
   function renderSearchResults(results) {
 
     if (results.length > 0) {
-      document.querySelector("#search-results").innerHTML = '<ul  class="search-results">';
-      document.querySelector("#search-results").innerHTML += results.map(generateSearchItem).join('');
-      document.querySelector("#search-results").innerHTML += '</ul>'
+      document.querySelector("#search-results").innerHTML ='<ul  class="search-results-ul">' +  results.map(generateSearchItem).join('')  + "</ul>";
     } else {
       document.querySelector("#search-text-pleace").innerHTML = "Not Found"
     }

@@ -4,7 +4,7 @@
 
   let state = {
     stocks: [],
-    stocksNames: ["WIX","MSFT","GOOG"],
+    stocksNames: localStorage.getItem("stocks") || [],
     displayMode: 0,
     filter: false,
     edit: false
@@ -13,6 +13,9 @@
   window.Stokr.Model = {
     getState() {
       return state;
+    },
+    setState(newState) {
+      state = newState;
     }
   }
 

@@ -268,9 +268,12 @@ main {
 }
 
 .search-li {
-  padding: 10px;
-  border-top: 1px solid gray;
+  padding: 13px;
+  font-size: 21px;
+  border-top: 1px solid lightgray;
   font-family: LucidaGrande;
+  display: flex;
+  align-items: center;
 
 }
 
@@ -348,3 +351,25 @@ main {
 .show-edit {
   display: block;
 }
+
+
+.plus-btn {
+  font-size: 40px;
+  background: #41bf15;
+  border: 0;
+  color: white;
+  padding: 0px 16px 7px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.search-stock-name {
+  color: gray;
+}
+
+.search-stock-exch {
+  flex: 1;
+  margin-left: 20px;
+}
+
+
