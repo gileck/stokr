@@ -4,6 +4,7 @@
   const App = window.Stokr;
   const Model = App.Model;
   const View = App.View;
+  const appUtils = App.appUtils;
   const stocks = new App.Stocks(App);
   const stateMgmt = new App.StateMgmt(App);
   const router = new App.Router(App);
@@ -15,8 +16,11 @@
     stateMgmt.setStateFromLocalStorage();
     API.getSymbols()
       .then(symbols => Model.getState().symbols = symbols)
-      .then(fetchStocks);
-    setTimeout(fetchStocks, 60000 * 5);
+      .then(updateStocksData)
+      .then(render)
+      .catch(render);
+
+    setTimeout(() => updateStocksData().then(render), 60000 * 5);
   }
 
   function render() {
@@ -25,11 +29,9 @@
     stateMgmt.saveToLocalStorage();
   }
 
-  function fetchStocks() {
+  function updateStocksData() {
     return API.fetchStocks(Model.getState().symbols)
       .then(stocks => Model.getState().stocks = stocks)
-      .then(render)
-      .catch(render);
   }
 
   View.setHandlers({
@@ -37,8 +39,7 @@
     addStock(symbol) {
       stocks.add(symbol)
         .then(API.saveStock)
-        .then(fetchStocks)
-        .then(router.Home)
+        .then(updateStocksData)
     },
 
     removeStock(symbol) {
@@ -62,11 +63,13 @@
       View.renderStock(stocks.filterStocks(filters));
     },
 
-    searchStock(value) {
-      API.searchStocks(value)
-        .then(results => results.filter(stock => Model.getState().symbols.indexOf(stock.symbol) === -1))
-        .then(data => View.renderSearchResults(data))
-    },
+    searchStock: function () {
+      return appUtils.debounce(function (value) {
+        API.searchStocks(value)
+          .then(results => results.filter(stock => Model.getState().symbols.indexOf(stock.symbol) === -1))
+          .then(data => View.renderSearchResults(data))
+      }, 250, false);
+    }(),
 
     routeChange() {
       Model.getState().edit = false;
@@ -86,7 +89,10 @@
       render();
     },
 
-    refresh: fetchStocks
+    refresh() {
+      updateStocksData().then(render)
+    }
+
   });
 
 })();

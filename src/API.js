@@ -1,4 +1,5 @@
-const SERVER_URL = "http://localhost:7000";
+const SERVER_URL = "htt" +
+  "p://localhost:7000";
 
 class API {
 
@@ -7,7 +8,7 @@ class API {
   }
 
   saveStock(symbol) {
-    return fetch(SERVER_URL + "/symbol/" + symbol, {method: "POST"});
+     return fetch(SERVER_URL + "/symbol/" + symbol, {method: "POST"})
   }
 
   removeStock(symbol) {

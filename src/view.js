@@ -49,8 +49,10 @@
       ctrl.openSearch();
     },
     "add-stock": function (e) {
-      const symbol = e.target.closest('li').dataset.id;
+      const element = e.target.closest('li');
+      const symbol = element.dataset.id;
       ctrl.addStock(symbol);
+      element.style.display = "none";
     },
     "remove": function (e) {
       const symbol = e.target.closest('li').dataset.id;
@@ -81,7 +83,6 @@
   }
 
   function search(e) {
-    if (e.keyCode !== 13) return;
     const value = e.target.value;
     ctrl.searchStock(value);
   }
@@ -94,7 +95,7 @@
 
     if (location.hash === "#search") {
       document.querySelector("#root").innerHTML = generateSearch();
-      document.querySelector("#search-input").addEventListener("keypress",search);
+      document.querySelector("#search-input").addEventListener("keyup",search);
     } else {
       document.querySelector("#root").innerHTML = generateHTML();
       document.querySelector("#filter-form").addEventListener("submit",handlerFunctions.submitFilters);
@@ -106,11 +107,12 @@
 
   function isItemOpen(item) {
     if (state[item]) return "color-red"
+    return '';
   }
 
   function showEditButton() {
-    if (state.edit) return "show-edit"
-    return ''
+    if (state.edit) return "show-edit";
+    return '';
   }
 
 
@@ -125,7 +127,7 @@
         <div id="search-results">
           <div class="search-default-wrapper">
             <div class="icon-search-place-holder search-icon"></div>
-            <div id="search-text-pleace" class="search-text">Search</div>
+            <div id="search-text-place" class="search-text">Search</div>
           </div>
         </div>
       </div>
@@ -147,7 +149,12 @@
     if (results.length > 0) {
       document.querySelector("#search-results").innerHTML ='<ul  class="search-results-ul">' +  results.map(generateSearchItem).join('')  + "</ul>";
     } else {
-      document.querySelector("#search-text-pleace").innerHTML = "Not Found"
+      document.querySelector("#search-results").innerHTML = `
+                <div class="search-default-wrapper">
+            <div class="icon-search-place-holder search-icon"></div>
+            <div id="search-text-place" class="search-text">Not Found</div>
+          </div>
+      `
     }
 
   }

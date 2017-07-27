@@ -322,7 +322,10 @@ main {
   border: 0;
   margin-right: 10px;
   cursor: pointer;
+
   display: none;
+
+
 }
 
 .edit-btn:focus {
