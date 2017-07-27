@@ -1,53 +1,54 @@
-
 (function () {
   'use strict';
   window.Stokr = window.Stokr || {};
-  let App = window.Stokr;
-  let Model = App.Model;
-  let View = App.View;
-  let Stock = new App.Stock(App);
-  let FilterUtils = new App.FilterUtils(App);
-  let StateMgmt = new App.StateMgmt(App);
-  let Router = new App.Router(App);
+  const App = window.Stokr;
+  const Model = App.Model;
+  const View = App.View;
+  const stocks = new App.Stocks(App);
+  const stateMgmt = new App.StateMgmt(App);
+  const router = new App.Router(App);
+  const API = new App.API(App);
 
   init();
 
   function init() {
-    StateMgmt.setStateFromLocalStorage();
-    fetchStocks();
+    stateMgmt.setStateFromLocalStorage();
+    API.getSymbols()
+      .then(symbols => Model.getState().symbols = symbols)
+      .then(fetchStocks);
     setTimeout(fetchStocks, 60000 * 5);
   }
 
   function render() {
     View.setState(Model.getState());
     View.render();
-    StateMgmt.saveToLocalStorage();
+    stateMgmt.saveToLocalStorage();
   }
 
   function fetchStocks() {
-    return Stock.Fetch().then(render).catch(render);
+    return API.fetchStocks(Model.getState().symbols)
+      .then(stocks => Model.getState().stocks = stocks)
+      .then(render)
+      .catch(render);
   }
 
   View.setHandlers({
 
     addStock(symbol) {
-      Stock.Add(symbol);
-      fetchStocks().then(Router.Home);
+      stocks.add(symbol)
+        .then(API.saveStock)
+        .then(fetchStocks)
+        .then(router.Home)
     },
 
     removeStock(symbol) {
-      Stock.Remove(symbol);
-      render();
+      stocks.remove(symbol)
+        .then(API.removeStock)
+        .then(render)
     },
 
     swapStocks(symbol,direction) {
-      Stock.SwapStocks(symbol,direction);
-      render();
-    },
-
-    toggleFilter() {
-      Model.getState().edit = false;
-      Model.getState().filter = !Model.getState().filter;
+      stocks.swapStocks(symbol,direction);
       render();
     },
 
@@ -58,14 +59,24 @@
     },
 
     filterStocks(filters) {
-      View.renderStock(FilterUtils.filterStocks(filters));
+      View.renderStock(stocks.filterStocks(filters));
     },
 
     searchStock(value) {
-      return Stock.Search(value).then(data => View.renderSearchResults(data))
+      API.searchStocks(value)
+        .then(results => results.filter(stock => Model.getState().symbols.indexOf(stock.symbol) === -1))
+        .then(data => View.renderSearchResults(data))
     },
 
     routeChange() {
+      Model.getState().edit = false;
+      Model.getState().filter = false;
+      render();
+    },
+
+    toggleFilter() {
+      Model.getState().edit = false;
+      Model.getState().filter = !Model.getState().filter;
       render();
     },
 
@@ -75,7 +86,7 @@
       render();
     },
 
-    fetchStocks: fetchStocks
+    refresh: fetchStocks
   });
 
 })();

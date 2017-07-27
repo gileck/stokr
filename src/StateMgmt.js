@@ -6,10 +6,12 @@ class StateMgmt {
   }
 
   saveToLocalStorage() {
-    const stocksCopy = this.Model.getState().stocks.slice();
-    this.Model.getState().stocks = [];
-    localStorage.setItem("state",JSON.stringify(this.Model.getState()));
-    this.Model.getState().stocks = stocksCopy;
+    const stateToSave = {
+      displayMode: this.Model.getState().displayMode,
+      filter: this.Model.getState().filter,
+      edit: this.Model.getState().edit
+    };
+    localStorage.setItem("state",JSON.stringify(stateToSave));
   }
 
   setStateFromLocalStorage() {

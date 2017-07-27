@@ -12,7 +12,6 @@ class Router {
   Search() {
     window.location.hash = "#search"
   }
-
 }
 
 window.Stokr = window.Stokr || {};

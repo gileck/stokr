@@ -43,7 +43,7 @@
       ctrl.toggleEdit();
     },
     "refresh": function () {
-      ctrl.fetchStocks();
+      ctrl.refresh();
     },
     "search": function () {
       ctrl.openSearch();
@@ -83,7 +83,6 @@
   function search(e) {
     if (e.keyCode !== 13) return;
     const value = e.target.value;
-    console.log(value);
     ctrl.searchStock(value);
   }
 
